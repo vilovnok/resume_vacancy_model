@@ -34,11 +34,6 @@ with DAG(
     tags=["hr", "pipeline"],
 ) as dag:
 
-    task_clean_data = PythonOperator(
-        task_id="clean_data_directory",
-        python_callable=clean_data_directory,
-    )
-
     task_download = PythonOperator(
         task_id="download_dataset_from_minio",
         python_callable=download_dataset_from_minio,
@@ -64,7 +59,13 @@ with DAG(
         python_callable=dispatch_vectorization,
     )
 
-    task_clean_data >> task_download
+    task_clean_data = PythonOperator(
+        task_id="clean_data_directory",
+        python_callable=clean_data_directory,
+    )
+
+
     task_download >> [task_extract_resumes, task_extract_vacancies]
     [task_extract_resumes, task_extract_vacancies] >> task_load_postgres
     task_load_postgres >> upload_vectors_to_qdrant
+    upload_vectors_to_qdrant >> task_clean_data

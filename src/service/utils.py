@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 def make_cache_key(
     content: str,
     top_k: int,

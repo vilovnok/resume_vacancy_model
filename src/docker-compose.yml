@@ -91,12 +91,11 @@ services:
       - "8080:8080"
     env_file:
       - ./service/.env
-    volumes:
-      - ./models:/models
-    command: ["python3", "main.py"]
+    command: ["sh", "-c", "python3 main.py"]
     depends_on:
       - qdrant
       - redis
+      - minio
       - otel-collector
     networks:
       - monitoring
@@ -107,9 +106,7 @@ services:
     restart: unless-stopped
     env_file:
       - ./service/.env
-    volumes:
-      - ./models:/models
-    command: ["celery", "-A", "worker.celery", "worker", "--loglevel=info"]
+    command: ["sh", "-c", "celery -A worker.celery worker --loglevel=info"]
     depends_on:
       - redis
       - qdrant

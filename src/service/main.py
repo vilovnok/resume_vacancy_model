@@ -214,7 +214,7 @@ async def search_by_text(request: MatchRequest, req: Request):
             INFERENCE_LATENCY.labels(model="modernbert").observe(encode_latency)
 
             TOKENS_PROCESSED.labels(model="modernbert").inc(
-                len(engine.tokenizer.encode(request.content))
+                len(engine.model.tokenizer.encode(request.content))
             )
 
 
