@@ -6,3 +6,5 @@ __pycache__/
 
 trash/
 benchmarks/
+
+model_stage1/

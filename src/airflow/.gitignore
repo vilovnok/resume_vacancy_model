@@ -1,0 +1,10 @@
+__pycache__
+
+airflow.cfg
+airflow-webserver.pid
+webserver_config.py
+
+data/
+logs/
+
+.env

@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "hr-matcher"
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["hr-matcher:8080"]

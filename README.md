@@ -1,50 +1,37 @@
 # HR Model
 
 
-Предварительно необходимо распаковать архив для создания директории `benchmarks/raw/hr/` с набором данных.
+Загружаем данные для тестирования
+```bash
+curl -L -o data.zip "https://www.kaggle.com/api/v1/datasets/download/vilovnok/dataset-test"
+
+unzip data.zip -d ./src/minio-seed
+```
+
+
+## Запуск сервиса
+
+### 1. Клонирование репозитория
+```bash
+git clone https://github.com/user/repo.git
+cd hr_matcher/app/
+```
+
+### 2. Заполнить .env
+```
+
+```
+
+### 3. Поднять контейнеры
+```
+docker compose up -d
+```
+
+### 4. Протестировать ручки (optional)
+```
+http://localhost:8080/docs#/
+```
 
 
 ## Эксперименты
-
-### Exp. (1-2)
-
-Эксперименты без дообучения и дообучением моделей с архитектурой bi-encoder.
-
-```bashs
-bash train_stage1.sh
-
-bash test_stage1.sh
-```
-
-
-### Exp. 3
-
-Дообучение модели на основе архитектуры multi-view representation learn-
-ing. 
-
-```bashs
-bash train_stage3.sh
-
-bash test_stage3.sh
-```
-
-### Exp. 4
-
-Дистилляция знаний через векторные представления
-модели.
-
-```bashs
-bash train_stage4.sh
-
-bash test_stage4.sh
-```
-
-### Exp. 5
-Дистилляция знаний осуществляемое через внутренние представления
-модели.
-
-```bashs
-bash train_stage5.sh
-
-bash test_stage5.sh
-```
+Предварительно необходимо распаковать архив для создания директории `benchmarks/raw/hr/` с набором данных и внедрить в директорию `experiments` для проведения экспериментов.
