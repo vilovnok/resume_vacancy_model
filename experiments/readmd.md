@@ -1,44 +1,118 @@
 ## Эксперименты
 
-### Exp. (1-2)
+Перед запуском экспериментов необходимо:
 
-Эксперименты без дообучения и дообучением моделей с архитектурой bi-encoder.
+1. Подготовить датасет в директории `benchmarks/raw/hr/`
+2. Установить зависимости из `experiments/requirements.txt`
+3. Настроить `accelerate`
 
-```bashs
-bash train_stage1.sh
+```bash
+pip install -r experiments/requirements.txt
 
-bash test_stage1.sh
+accelerate config
 ```
 
+---
 
-### Exp. 3
+## Структура экспериментов
 
-Дообучение модели на основе архитектуры multi-view representation learn-
-ing. 
-
-```bashs
-bash train_stage3.sh
-
-bash test_stage3.sh
+```text
+experiments/
+├── train_stages.sh
+├── test_stages.sh
+├── stage1/
+├── stage3/
+├── stage4/
+└── stage5/
 ```
 
-### Exp. 4
+---
 
-Дистилляция знаний через векторные представления
-модели.
+## Exp. 1–2 — Bi-Encoder Retrieval
 
-```bashs
-bash train_stage4.sh
+Эксперименты с базовой bi-encoder архитектурой:
 
-bash test_stage4.sh
+- baseline без дообучения
+- supervised fine-tuning retrieval модели
+
+### Обучение
+
+```bash
+bash train_stages.sh stage1
 ```
 
-### Exp. 5
-Дистилляция знаний осуществляемое через внутренние представления
-модели.
+### Тестирование
 
-```bashs
-bash train_stage5.sh
+```bash
+bash test_stages.sh stage1
+```
 
-bash test_stage5.sh
+---
+
+## Exp. 3 — Multi-View Representation Learning
+
+Дообучение retrieval-модели с использованием multi-view представлений и дополнительных позитивных/негативных пар.
+
+### Обучение
+
+```bash
+bash train_stages.sh stage3
+```
+
+### Тестирование
+
+```bash
+bash test_stages.sh stage3
+```
+
+---
+
+## Exp. 4 — Knowledge Distillation via Embeddings
+
+Дистилляция знаний через согласование векторных представлений teacher/student моделей.
+
+### Обучение
+
+```bash
+bash train_stages.sh stage4
+```
+
+### Тестирование
+
+```bash
+bash test_stages.sh stage4
+```
+
+---
+
+## Exp. 5 — Hidden-State Knowledge Distillation
+
+Дистилляция знаний через внутренние скрытые представления модели.
+
+### Обучение
+
+```bash
+bash train_stages.sh stage5
+```
+
+### Тестирование
+
+```bash
+bash test_stages.sh stage5
+```
+
+---
+
+## Запуск всех экспериментов
+
+### Полный цикл обучения
+
+```bash
+bash train_stages.sh all
+```
+
+### Полный цикл тестирования
+
+```bash
+bash test_stages.sh all
 ```

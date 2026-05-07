@@ -4,7 +4,7 @@
 
 ---
 
-## 🚀 Быстрый старт
+## Init
 
 ### 1. Клонирование репозитория
 
@@ -18,8 +18,8 @@ cd hr_matcher/src
 ```bash
 # Создайте .env файл на основе шаблона:
 
-cp service/.env.sample service/.env
-cp airflow/.env.sample airflow/.env
+cp src/service/.env.sample src/service/.env
+cp src/airflow/.env.sample src/airflow/.env
 ```
 
 ## Подготовка данных и модели
@@ -31,7 +31,7 @@ curl -L -o data.zip "https://www.kaggle.com/api/v1/datasets/download/vilovnok/da
 ```
 
 2. Распаковать данные и распределить по соответствутющим директориям 
-```
+```bash
 unzip data.zip -d ./src/minio-seed
 
 mv $(find ./src/minio-seed -name "*.onnx") ./src/service/models/model.onnx
@@ -43,15 +43,45 @@ find ./src/minio-seed -name "*.onnx" -delete
 
 Итоговая структура
 ```
-src/
-├── service/
-│   └── models/
-│       └── model.onnx
+hr_matcher/
 │
-├── minio-seed/
-│   ├── resumes.zip
-│   ├── vacancies.zip
-│   ├── *.csv
+├── README.md
+├── benchmarks/                
+├── experiments/              
+│
+├── src/
+│
+│   ├── ./                    
+│   │   ├── docker-compose.yml
+│   │   ├── otel-collector-config.yml
+│   │   ├── prometheus.yml
+│   │
+│   ├── airflow/             
+│   │   ├── dags/
+│   │   ├── tasks/
+│   │   ├── scripts/
+│   │   ├── config.py
+│   │   ├── requirements.txt
+│   │   ├── Dockerfile
+│   │   └── webserver_config.py
+│   │
+│   ├── service/             
+│   │   ├── main.py          
+│   │   ├── engine/          
+│   │   ├── models/          
+│   │   ├── worker.py        
+│   │   ├── cache.py
+│   │   ├── metrics.py
+│   │   ├── utils.py
+│   │   ├── config.py
+│   │   ├── requirements.txt
+│   │   └── Dockerfile
+│   │
+│   └── minio-seed/               
+│       └── raw/ & processed/  
+│    
+│
+└── README.md
 ```
 
 ---
@@ -80,3 +110,11 @@ docker ps
 
 ## Эксперименты
 Предварительно необходимо распаковать архив для создания директории `benchmarks/raw/hr/` с набором данных и внедрить в директорию `experiments` для проведения экспериментов.
+
+Скачать датасет
+```bash
+curl -L -o benchmarks.zip "https://www.kaggle.com/api/v1/datasets/download/vilovnok/benchmarks"
+
+unzip benchmarks.zip -d ./experiments/benchmarks/
+```
+

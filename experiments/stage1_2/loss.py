@@ -41,7 +41,7 @@ class MarginLoss(nn.Module):
         in_batch_negatives: bool = None,
         in_batch_negative_masks: Optional[torch.Tensor] = None
     ) -> torch.Tensor:
- 
+
         batch_size = anchor_embeddings.size(0)
         device = anchor_embeddings.device
         
@@ -71,7 +71,6 @@ class MarginLoss(nn.Module):
                     ~in_batch_negative_masks, float('-inf')
                 )
             else:
-                # Default: mask out positive pairs (diagonal)
                 mask = torch.eye(batch_size, device=device, dtype=torch.bool)
                 batch_negative_similarities = batch_similarities.masked_fill(mask, float('-inf'))
                 
@@ -134,7 +133,7 @@ class NTXent(nn.Module):
         in_batch_negatives: bool = None,
         in_batch_negative_masks: Optional[torch.Tensor] = None,
         ) -> Dict[str, torch.Tensor]:
- 
+
         batch_size = anchor_embeddings.size(0)
         device = anchor_embeddings.device
         
@@ -186,7 +185,7 @@ class NTXent(nn.Module):
         else:
             raise ValueError("No negatives provided (either in_batch_negatives=True or negative_embeddings must be provided)")
         
-        # compute loss
+
         numerator = torch.exp(positive_similarities) 
         all_similarities = torch.cat([
             positive_similarities.unsqueeze(1),
